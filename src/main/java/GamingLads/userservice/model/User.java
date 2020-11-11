@@ -1,4 +1,4 @@
-package GamingLads.authenticationservice.Model;
+package GamingLads.userservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

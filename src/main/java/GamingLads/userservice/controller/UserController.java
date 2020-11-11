@@ -1,25 +1,27 @@
-package GamingLads.authenticationservice.Controller;
+package GamingLads.userservice.controller;
 
-import GamingLads.authenticationservice.Model.User;
-import GamingLads.authenticationservice.Service.AuthenticationService;
+import GamingLads.userservice.model.User;
+import GamingLads.userservice.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
-public class AuthenticationController {
+public class UserController {
+
+    private final AuthenticationService authService;
 
     @Autowired
-    AuthenticationService authService;
+    public UserController(final AuthenticationService authService){
+        this.authService = authService;
+    }
 
     //get params User user
     @GetMapping("/signIn")
     public ResponseEntity<Void> signIn(){
-        User user = new User("1", "Sharr", "1234");
+        User user = new User("1", "Sharony", "1234");
         boolean validated = authService.signIn(user);
         if(validated){
             return new ResponseEntity<>(null, HttpStatus.OK);
@@ -29,10 +31,8 @@ public class AuthenticationController {
         }
     }
 
-    //post -> params User user
-    @GetMapping("/signUp")
-    public ResponseEntity<Void> signUp(){
-        User user = new User("1", "Sharr", "1234");
+    @PostMapping("/signUp")
+    public ResponseEntity<Void> signUp(@RequestBody User user){
         boolean succeeded = authService.signUp(user);
         if(succeeded){
             return new ResponseEntity<>(null, HttpStatus.OK);

@@ -1,7 +1,7 @@
-package GamingLads.authenticationservice.Repository;
+package GamingLads.userservice.repository;
 
 
-import GamingLads.authenticationservice.Model.User;
+import GamingLads.userservice.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
