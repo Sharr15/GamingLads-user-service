@@ -37,7 +37,7 @@ public class AuthenticationServiceTest {
     public void setup() {
         httpWrapper = new HttpWrapper(restTemplate);
         authService = new AuthenticationService(userRepository, httpWrapper);
-        user = new User("1", "Sharony", "1234");
+        user = new User(1, "Sharony", "1234", "1234");
     }
 
     @Test

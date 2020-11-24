@@ -8,38 +8,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("user")
 public class UserController {
 
     private final AuthenticationService authService;
 
     @Autowired
-    public UserController(final AuthenticationService authService){
+    public UserController(final AuthenticationService authService) {
         this.authService = authService;
     }
 
     //get params User user
     @GetMapping("/signIn")
-    public ResponseEntity<Void> signIn(){
-        User user = new User("1", "Sharony", "1234");
+    public ResponseEntity<String> signIn(@RequestBody User user) {
         boolean validated = authService.signIn(user);
-        if(validated){
-            return new ResponseEntity<>(null, HttpStatus.OK);
+        if (validated) {
+            String token = authService.createToken(user);
+            if (token != null) {
+                return new ResponseEntity<>(token, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            }
         }
-        else{
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-        }
+        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<Void> signUp(@RequestBody User user){
-        boolean succeeded = authService.signUp(user);
-        if(succeeded){
+    public ResponseEntity<Void> signUp(@RequestBody User user) {
+        if(authService.signUp(user)) {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-        }
+        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
-
 }

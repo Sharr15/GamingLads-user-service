@@ -3,38 +3,44 @@ package GamingLads.userservice.service;
 import GamingLads.userservice.http.HttpWrapper;
 import GamingLads.userservice.model.User;
 import GamingLads.userservice.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepo;
     private final HttpWrapper httpWrapper;
 
-    @Autowired
-    public AuthenticationService(final UserRepository userRepo, HttpWrapper wrapper) {
-        this.userRepo = userRepo;
-        this.httpWrapper = wrapper;
-    }
-
-    public boolean signIn(User user){
+    public boolean signIn(User user) {
         List<User> usersList = (List<User>) userRepo.findAll();
-        for (User user1: usersList) {
-            if(user.getUsername().equals(user1.getUsername()) && user.getPassword().equals(user1.getPassword())){
+        for (User user1 : usersList) {
+            if (user.getUsername().equals(user1.getUsername()) && user.getPassword().equals(user1.getPassword())) {
                 return true;
             }
         }
         return false;
     }
 
+    public String createToken(User user){
+        String token;
+        try {
+            //token = jwtService.createToken(user);
+            token = "1234";
+        }
+        catch(Exception e){
+            return null;
+        }
+        return token;
+    }
+
     public boolean signUp(User user){
         boolean saved = saveUser(user);
-        boolean created = createProfile(user);
+        boolean created = createProfile(userRepo.findByUsername(user.getUsername()));
         return saved && created;
     }
 

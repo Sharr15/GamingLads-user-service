@@ -15,7 +15,7 @@ public class HttpWrapper {
 
     private final RestTemplate restTemplate;
 
-    private String url = "http://profile-service/profile/create";
+    private String url = "http://localhost:8083/profile/create";
 
     @Autowired
     public HttpWrapper(final RestTemplate restTemplate) {
