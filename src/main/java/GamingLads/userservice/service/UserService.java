@@ -1,20 +1,20 @@
 package GamingLads.userservice.service;
 
-import GamingLads.userservice.http.HttpWrapper;
 import GamingLads.userservice.model.User;
 import GamingLads.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service @RequiredArgsConstructor
-public class AuthenticationService {
+public class UserService {
 
     private final UserRepository userRepo;
-    private final HttpWrapper httpWrapper;
+    private final RestTemplate restTemplate;
 
     public boolean signIn(User user) {
         List<User> usersList = (List<User>) userRepo.findAll();
@@ -29,7 +29,7 @@ public class AuthenticationService {
     public String createToken(User user){
         String token;
         try {
-            //token = jwtService.createToken(user);
+            //token = restTemplate.getForObject("http://localhost:8089/auth/create" + user, String.class)
             token = "1234";
         }
         catch(Exception e){
@@ -38,13 +38,18 @@ public class AuthenticationService {
         return token;
     }
 
+
     public boolean signUp(User user){
+        boolean created = false;
         boolean saved = saveUser(user);
-        boolean created = createProfile(userRepo.findByUsername(user.getUsername()));
-        return saved && created;
+        if(saved){
+             created = createProfile(userRepo.findByUsername(user.getUsername()));
+        }
+        return created;
     }
 
     public boolean saveUser(User user){
+        user.setActive(false);
         try{
             userRepo.save(user);
         }
@@ -55,7 +60,11 @@ public class AuthenticationService {
     }
 
     public boolean createProfile(User user){
-        return httpWrapper.invokeHttpCall(HttpMethod.POST, user).getStatusCode() == HttpStatus.CREATED;
+        ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8089/profile/create", user, String.class);
+        //String body = entity.getBody();
+        //MediaType contentType = entity.getHeaders().getContentType();
+        HttpStatus statusCode = entity.getStatusCode();
+        return statusCode.equals(HttpStatus.CREATED);
     }
 }
 

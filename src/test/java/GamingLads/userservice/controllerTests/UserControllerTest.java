@@ -1,9 +1,9 @@
 package GamingLads.userservice.controllerTests;
 
-import GamingLads.userservice.http.HttpWrapper;
+import GamingLads.userservice.model.Role;
 import GamingLads.userservice.model.User;
 import GamingLads.userservice.repository.UserRepository;
-import GamingLads.userservice.service.AuthenticationService;
+import GamingLads.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,8 +34,7 @@ public class UserControllerTest {
     @MockBean
     private UserRepository userRepository;
 
-    private AuthenticationService authService;
-    private HttpWrapper httpWrapper;
+    private UserService authService;
     private User user;
 
     @MockBean
@@ -52,9 +54,11 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setup() {
-        httpWrapper = new HttpWrapper(restTemplate);
-        authService = new AuthenticationService(userRepository, httpWrapper);
-        user = new User(1,"Sharony","1234", "1234");
+        authService = new UserService(userRepository, restTemplate);
+        Role role = new Role(1, "USER");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        user = new User(1,"Sharony","1234", roles ,false);
     }
 
     @Test

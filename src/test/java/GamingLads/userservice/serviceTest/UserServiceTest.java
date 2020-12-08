@@ -1,9 +1,9 @@
 package GamingLads.userservice.serviceTest;
 
-import GamingLads.userservice.http.HttpWrapper;
+import GamingLads.userservice.model.Role;
 import GamingLads.userservice.model.User;
 import GamingLads.userservice.repository.UserRepository;
-import GamingLads.userservice.service.AuthenticationService;
+import GamingLads.userservice.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class AuthenticationServiceTest {
+public class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;
@@ -29,15 +32,16 @@ public class AuthenticationServiceTest {
     @MockBean
     private RestTemplate restTemplate;
 
-    private HttpWrapper httpWrapper;
-    private AuthenticationService authService;
+    private UserService authService;
     private User user;
 
     @BeforeEach
     public void setup() {
-        httpWrapper = new HttpWrapper(restTemplate);
-        authService = new AuthenticationService(userRepository, httpWrapper);
-        user = new User(1, "Sharony", "1234", "1234");
+        authService = new UserService(userRepository, restTemplate);
+        Role role = new Role(1, "USER");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        user = new User(1, "Sharony", "1234", roles, false);
     }
 
     @Test
