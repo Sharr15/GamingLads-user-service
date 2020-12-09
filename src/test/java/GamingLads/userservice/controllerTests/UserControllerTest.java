@@ -2,7 +2,9 @@ package GamingLads.userservice.controllerTests;
 
 import GamingLads.userservice.model.Role;
 import GamingLads.userservice.model.User;
+import GamingLads.userservice.repository.RoleRepository;
 import GamingLads.userservice.repository.UserRepository;
+import GamingLads.userservice.service.JwtService;
 import GamingLads.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +36,10 @@ public class UserControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private RoleRepository roleRepository;
+
+    private JwtService jwtService;
     private UserService authService;
     private User user;
 
@@ -54,7 +60,7 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setup() {
-        authService = new UserService(userRepository, restTemplate);
+        authService = new UserService(userRepository, restTemplate, jwtService, roleRepository);
         Role role = new Role(1, "USER");
         List<Role> roles = new ArrayList<>();
         roles.add(role);

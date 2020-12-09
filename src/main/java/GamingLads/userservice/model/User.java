@@ -1,5 +1,6 @@
 package GamingLads.userservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class User {
     @Getter @Setter @Column
     private String password;
 
-
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "user_role",

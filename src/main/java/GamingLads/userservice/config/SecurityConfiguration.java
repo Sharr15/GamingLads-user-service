@@ -27,10 +27,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //enable csrf for production
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("user/signIn/admin").hasRole("ADMIN")
-                .antMatchers("user/signIn/user").hasAnyRole("ADMIN", "USER")
-                .antMatchers("user/signUp").permitAll()
-                .and().formLogin();
+                .antMatchers("user/signIn/user", "user/signUp", "user/signIn/admin").permitAll();
+                //.anyRequest().authenticated();
     }
 
     @Bean
