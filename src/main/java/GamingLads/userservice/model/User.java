@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
-@Entity(name = "User")
-@Table(name = "user")
+@Entity(name = "User_Entity")
+@Table(name = "user_entity")
 public class User {
 
     @Getter @Setter @GeneratedValue(strategy = GenerationType.AUTO) @Id

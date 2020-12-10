@@ -17,7 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-    //get params User user
     @PostMapping("/signIn/admin")
     public ResponseEntity<String> signInAdmin(@RequestBody SignInRequest signInRequest) {
         boolean validated = userService.signIn(signInRequest);
@@ -33,7 +32,6 @@ public class UserController {
     }
 
     //get params User user
-    //@PreAuthorize("hasRole('USER')")
     @PostMapping("/signIn/user")
     public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) {
         boolean validated = userService.signIn(signInRequest);
