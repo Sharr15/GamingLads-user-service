@@ -32,7 +32,7 @@ jobs:
             latest
       - task: PushToHeroku@0
         inputs:
-          ApiKey: '5185a334-9be3-4a95-93bc-149c15501780'
+          ApiKey: 'd0e26bf9-46d6-49bb-a3a0-aaab5063d904'
           AppName: 'gaminglads-userservice'
           PushRoot: '/'
 
