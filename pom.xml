@@ -9,10 +9,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>GamingLads</groupId>
-	<artifactId>authentication-service</artifactId>
+	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authentication-service</name>
-	<description>Authentication service for GamingLads</description>
+	<name>user-service</name>
+	<description>User service for GamingLads</description>
+
+	<properties>
+		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
