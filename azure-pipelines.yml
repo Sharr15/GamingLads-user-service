@@ -3,12 +3,9 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 variables:
   ENV: test
 jobs:
-  - job: Windows
+  - job: "Compile"
     pool:
       vmImage: 'windows-latest'
-    steps:
-    - script: echo hello from Windows
-  - job: "Compile"
     steps:
       - task: Maven@3
         displayName: Compiling Image
