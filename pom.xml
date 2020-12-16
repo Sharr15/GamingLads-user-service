@@ -19,6 +19,7 @@
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<sonar.scanner.force-deprecated-java-version>true</sonar.scanner.force-deprecated-java-version>
 	</properties>
 
 	<dependencies>
@@ -113,7 +114,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<release>11</release>
 				</configuration>
 			</plugin>
 		</plugins>
