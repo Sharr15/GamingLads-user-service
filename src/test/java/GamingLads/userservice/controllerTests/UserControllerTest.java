@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +26,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -33,14 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-    @MockBean
+    @Mock
     private UserRepository userRepository;
 
     @MockBean
     private RoleRepository roleRepository;
 
     private JwtService jwtService;
-    private UserService authService;
+    private UserService userService;
     private User user;
 
     @MockBean
@@ -57,10 +60,9 @@ public class UserControllerTest {
         }
     }
 
-
     @BeforeEach
     public void setup() {
-        authService = new UserService(userRepository, restTemplate, jwtService, roleRepository);
+        userService = new UserService(userRepository, restTemplate, jwtService, roleRepository);
         Role role = new Role(1, "USER");
         List<Role> roles = new ArrayList<>();
         roles.add(role);
@@ -69,16 +71,32 @@ public class UserControllerTest {
 
     @Test
     public void testSignUp() throws Exception {
-        when(restTemplate.exchange(
+        when(restTemplate.postForEntity(
                 ArgumentMatchers.anyString(),
-                ArgumentMatchers.any(HttpMethod.class),
                 ArgumentMatchers.any(),
-                ArgumentMatchers.<Class<String>>any())).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
+                ArgumentMatchers.<Class<User>>any())).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
 
-        RequestBuilder requestCall = MockMvcRequestBuilders.post("/auth/signUp")
+        //HttpHeaders header = new HttpHeaders();
+        //header.setContentType(MediaType.APPLICATION_JSON);
+        //ResponseEntity<String> entity = new ResponseEntity<>(HttpStatus.CREATED);
+        //when(userService.createProfile(user)).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
+
+        when(userRepository.findByUsername("Sharony")).thenReturn(user);
+        when(userService.createProfile(user)).thenReturn(new ResponseEntity<User>(user, CREATED));
+        RequestBuilder requestCall = MockMvcRequestBuilders.post("/user/signUp")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(user));
         mockMvc.perform(requestCall).andExpect(status().isOk());
-    }
 
+        //MvcResult result = (MvcResult) mockMvc.perform(post("user/signUp")
+              //  .contentType(MediaType.APPLICATION_JSON)
+               // .content(asJsonString(user)));
+
+      //  mockMvc.perform(asyncDispatch(result))
+               // .andExpect(status().isOk());
+
+        //ResponseEntity<?> responseEntity = userService.createProfile(user);
+        //assertThat(responseEntity.getStatusCode().equals(CREATED));
+
+    }
 }

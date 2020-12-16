@@ -40,12 +40,12 @@ public class UserService {
 
 
     public boolean signUp(User user){
-        boolean created = false;
         boolean saved = saveUser(user);
         if(saved){
-             created = createProfile(userRepo.findByUsername(user.getUsername()));
+             ResponseEntity<?> entity = createProfile(userRepo.findByUsername(user.getUsername()));
+            return entity.getStatusCode().equals(HttpStatus.CREATED);
         }
-        return created;
+        return false;
     }
 
 
@@ -64,12 +64,8 @@ public class UserService {
         return true;
     }
 
-    public boolean createProfile(User user){
-        ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8089/profile/create", user, String.class);
-        //String body = entity.getBody();
-        //MediaType contentType = entity.getHeaders().getContentType();
-        HttpStatus statusCode = entity.getStatusCode();
-        return statusCode.equals(HttpStatus.CREATED);
+    public ResponseEntity<User> createProfile(User user){
+        return restTemplate.postForEntity("http://localhost:8089/profile/create", user, User.class);
     }
 }
 

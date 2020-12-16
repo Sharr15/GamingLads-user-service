@@ -4,10 +4,8 @@ import GamingLads.userservice.model.SignInRequest;
 import GamingLads.userservice.model.User;
 import GamingLads.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,8 +47,8 @@ public class UserController {
     @PostMapping("/signUp")
     public ResponseEntity<Void> signUp(@RequestBody User user) {
         if(userService.signUp(user)) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 }
