@@ -1,4 +1,5 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
+
 variables:
   ENV: test
 jobs:
@@ -27,4 +28,9 @@ jobs:
           tags: |
             $(Build.BuildId)
             latest
+      - task: PushToHeroku@0
+        inputs:
+          ApiKey: '5185a334-9be3-4a95-93bc-149c15501780'
+          AppName: 'gaminglads-userservice'
+          PushRoot: '/'
 
