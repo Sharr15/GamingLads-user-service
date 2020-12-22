@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
@@ -23,6 +24,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -49,6 +51,7 @@ public class UserServiceTest {
     private UserService userService;
     private JwtService jwtService;
     private User user;
+    private Role role;
 
     @BeforeEach
     public void setup() {
@@ -56,7 +59,7 @@ public class UserServiceTest {
         RestGatewaySupport gateway = new RestGatewaySupport();
         gateway.setRestTemplate(restTemplate);
         mockServer = MockRestServiceServer.createServer(gateway);
-        Role role = new Role(1, "USER");
+        role = new Role(1, "USER");
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         user = new User(1, "Sharony", "1234", roles, false);
@@ -91,6 +94,9 @@ public class UserServiceTest {
 
     @Test
     void testSaveUser() {
+        when(roleRepository.findByName("USER")).thenReturn(role);
+        when(userRepository.save(Mockito.any(User.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
         assertTrue(userService.saveUser(user));
     }
 }

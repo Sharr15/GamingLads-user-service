@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +46,7 @@ public class UserControllerTest {
     private JwtService jwtService;
     private UserService userService;
     private User user;
+    private Role role;
 
     @MockBean
     private RestTemplate restTemplate;
@@ -63,7 +65,7 @@ public class UserControllerTest {
     @BeforeEach
     public void setup() {
         userService = new UserService(userRepository, restTemplate, jwtService, roleRepository);
-        Role role = new Role(1, "USER");
+        role = new Role(1, "USER");
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         user = new User(1,"Sharony","1234", roles ,false);
@@ -80,6 +82,10 @@ public class UserControllerTest {
         //header.setContentType(MediaType.APPLICATION_JSON);
         //ResponseEntity<String> entity = new ResponseEntity<>(HttpStatus.CREATED);
         //when(userService.createProfile(user)).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
+
+        when(roleRepository.findByName("USER")).thenReturn(role);
+        when(userRepository.save(Mockito.any(User.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
 
         when(userRepository.findByUsername("Sharony")).thenReturn(user);
         when(userService.createProfile(user)).thenReturn(new ResponseEntity<User>(user, CREATED));
