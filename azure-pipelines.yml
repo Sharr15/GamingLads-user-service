@@ -7,42 +7,46 @@ jobs:
     pool:
       vmImage: 'windows-latest'
     steps:
-      - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-      displayName: 'Prepare analysis on SonarCloud'
+    - task: SonarCloudPrepare@1
+      displayName: 
       inputs:
-        SonarCloud: 'SonarQube connection'
-        organization: semester3
-        projectKey: semester3
-      - task: Maven@3
-        displayName: Compiling Image
-        inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx3072m'
-          goals: 'compile'
-      - task: Maven@3
-        displayName: Testing Image
-        inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx3072m'
-          codeCoverageToolOption: JaCoCo
-          publishJUnitResults: false
-          testResultsFiles: '**/TEST-*.xml'
-          goals: 'test'
-      - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1 
-        displayName: 'Run Code Analysis on SonarCloud' 
-      - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1 
-        displayName: 'Publish Quality Gate Result on SonarCloud'
-      - task: Docker@2
-        displayName: Building Docker Image
-        inputs:
-          command: buildAndPush
-          Dockerfile: Dockerfile
-          tags: |
-            $(Build.BuildId)
-            latest
-      - task: PushToHeroku@0
-        inputs:
-          ApiKey: 'd0e26bf9-46d6-49bb-a3a0-aaab5063d904'
-          AppName: 'gaminglads-userservice'
-          PushRoot: ''
+        SonarCloud: 'https://sonarcloud.io/organizations/semester3/projects'
+        organization: 'semester3'
+        scannerMode: 'Other'
+    - task: Maven@3
+      displayName: Compiling Image
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        goals: 'compile'
+    - task: SonarCloudAnalyze@1
+      displayName: Run SonarCloud Analysis 
+    - task: SonarCloudPublish@1
+      displayName: Publish SonarCloud
+      inputs:
+        pollingTimeoutSec: '300'
+    - task: Maven@3
+      displayName: Testing Image
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        codeCoverageToolOption: JaCoCo
+        publishJUnitResults: false
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'test'
+
+    - task: Docker@2
+      displayName: Building Docker Image
+      inputs:
+        command: buildAndPush
+        Dockerfile: Dockerfile
+        tags: |
+          $(Build.BuildId)
+          latest
+    - task: PushToHeroku@0
+      inputs:
+        ApiKey: 'd0e26bf9-46d6-49bb-a3a0-aaab5063d904'
+        AppName: 'gaminglads-userservice'
+        PushRoot: ''
+
 
