@@ -19,12 +19,6 @@ jobs:
         mavenPomFile: 'pom.xml'
         mavenOptions: '-Xmx3072m'
         goals: 'compile'
-    - task: SonarCloudAnalyze@1
-      displayName: Run SonarCloud Analysis 
-    - task: SonarCloudPublish@1
-      displayName: Publish SonarCloud
-      inputs:
-        pollingTimeoutSec: '300'
     - task: Maven@3
       displayName: Testing Image
       inputs:
@@ -34,7 +28,12 @@ jobs:
         publishJUnitResults: false
         testResultsFiles: '**/TEST-*.xml'
         goals: 'test'
-
+    - task: SonarCloudAnalyze@1
+      displayName: Run SonarCloud Analysis 
+    - task: SonarCloudPublish@1
+      displayName: Publish SonarCloud
+      inputs:
+        pollingTimeoutSec: '300'
     - task: Docker@2
       displayName: Building Docker Image
       inputs:
