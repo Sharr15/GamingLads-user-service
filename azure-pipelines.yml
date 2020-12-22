@@ -13,6 +13,12 @@ jobs:
         SonarCloud: 'https://sonarcloud.io/organizations/semester3/projects'
         organization: 'semester3'
         scannerMode: 'Other'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner,
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.projectKey=S3-Individual_GamingLads
+          sonar.projectName=GamingLads
     - task: Maven@3
       displayName: Compiling Image
       inputs:
