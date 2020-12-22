@@ -1,30 +1,57 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
+
 variables:
   ENV: test
 jobs:
   - job: "Compile"
+    pool:
+      vmImage: 'windows-latest'
     steps:
-      - task: Maven@3
-        displayName: Compiling Image
-        inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx3072m'
-          goals: 'compile'
-      - task: Maven@3
-        displayName: Testing Image
-        inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx3072m'
-          codeCoverageToolOption: JaCoCo
-          publishJUnitResults: false
-          testResultsFiles: '**/TEST-*.xml'
-          goals: 'test'
-      - task: Docker@2
-        displayName: Building Docker Image
-        inputs:
-          command: buildAndPush
-          Dockerfile: Dockerfile
-          tags: |
-            $(Build.BuildId)
-            latest
+    - task: SonarCloudPrepare@1
+      displayName: 
+      inputs:
+        SonarCloud: 'https://sonarcloud.io/organizations/semester3/projects'
+        organization: 'semester3'
+        scannerMode: 'Other'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner,
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.projectKey=S3-Individual_GamingLads
+          sonar.projectName=GamingLads
+    - task: Maven@3
+      displayName: Compiling Image
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        goals: 'compile'
+    - task: Maven@3
+      displayName: Testing Image
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        codeCoverageToolOption: JaCoCo
+        publishJUnitResults: false
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'test'
+    - task: SonarCloudAnalyze@1
+      displayName: Run SonarCloud Analysis 
+    - task: SonarCloudPublish@1
+      displayName: Publish SonarCloud
+      inputs:
+        pollingTimeoutSec: '300'
+    - task: Docker@2
+      displayName: Building Docker Image
+      inputs:
+        command: buildAndPush
+        Dockerfile: Dockerfile
+        tags: |
+          $(Build.BuildId)
+          latest
+    - task: PushToHeroku@0
+      inputs:
+        ApiKey: 'd0e26bf9-46d6-49bb-a3a0-aaab5063d904'
+        AppName: 'gaminglads-userservice'
+        PushRoot: ''
+
 
