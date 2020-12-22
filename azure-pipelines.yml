@@ -23,19 +23,17 @@ jobs:
       displayName: Compiling Image
       inputs:
         mavenPomFile: 'pom.xml'
-        mavenOptions: '-Xmx3072m'
         goals: 'compile'
-    - task: Maven@3
-      displayName: Testing Image
-      inputs:
-        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        codeCoverageToolOption: 'JaCoCo'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
         mavenOptions: '-Xmx3072m'
-        codeCoverageToolOption: JaCoCo
-        publishJUnitResults: false
-        testResultsFiles: '**/TEST-*.xml'
-        goals: 'test'
-    - task: SonarCloudAnalyze@1
-      displayName: Run SonarCloud Analysis 
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: true
+        sqMavenPluginVersionChoice: 'latest'
     - task: SonarCloudPublish@1
       displayName: Publish SonarCloud
       inputs:
