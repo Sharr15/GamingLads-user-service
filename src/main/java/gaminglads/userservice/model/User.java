@@ -1,4 +1,4 @@
-package GamingLads.userservice.model;
+package gaminglads.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;

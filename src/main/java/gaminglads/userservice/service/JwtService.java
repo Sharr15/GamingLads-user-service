@@ -1,6 +1,6 @@
-package GamingLads.userservice.service;
+package gaminglads.userservice.service;
 
-import GamingLads.userservice.model.User;
+import gaminglads.userservice.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

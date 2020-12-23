@@ -1,6 +1,6 @@
-package GamingLads.userservice.repository;
+package gaminglads.userservice.repository;
 
-import GamingLads.userservice.model.Role;
+import gaminglads.userservice.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

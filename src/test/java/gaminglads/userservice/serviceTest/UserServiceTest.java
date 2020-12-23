@@ -1,12 +1,11 @@
-package GamingLads.userservice.serviceTest;
+package gaminglads.userservice.serviceTest;
 
-import GamingLads.userservice.model.Role;
-import GamingLads.userservice.model.User;
-import GamingLads.userservice.repository.RoleRepository;
-import GamingLads.userservice.repository.UserRepository;
-import GamingLads.userservice.service.JwtService;
-import GamingLads.userservice.service.UserService;
-import org.junit.jupiter.api.Assertions;
+import gaminglads.userservice.model.Role;
+import gaminglads.userservice.model.User;
+import gaminglads.userservice.repository.RoleRepository;
+import gaminglads.userservice.repository.UserRepository;
+import gaminglads.userservice.service.JwtService;
+import gaminglads.userservice.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.support.RestGatewaySupport;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +28,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class UserServiceTest {
+class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;

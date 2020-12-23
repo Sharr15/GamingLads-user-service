@@ -12,7 +12,7 @@
 	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>user-service</name>
-	<description>User service for GamingLads</description>
+	<description>User service for gaminglads</description>
 
 	<properties>
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>

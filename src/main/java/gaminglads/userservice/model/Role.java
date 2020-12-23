@@ -1,4 +1,4 @@
-package GamingLads.userservice.model;
+package gaminglads.userservice.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

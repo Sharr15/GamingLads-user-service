@@ -1,6 +1,6 @@
-package GamingLads.userservice;
+package gaminglads.userservice;
 
-import GamingLads.userservice.repository.UserRepository;
+import gaminglads.userservice.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

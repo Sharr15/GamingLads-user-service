@@ -1,11 +1,11 @@
-package GamingLads.userservice.controllerTests;
+package gaminglads.userservice.controllerTests;
 
-import GamingLads.userservice.model.Role;
-import GamingLads.userservice.model.User;
-import GamingLads.userservice.repository.RoleRepository;
-import GamingLads.userservice.repository.UserRepository;
-import GamingLads.userservice.service.JwtService;
-import GamingLads.userservice.service.UserService;
+import gaminglads.userservice.model.Role;
+import gaminglads.userservice.model.User;
+import gaminglads.userservice.repository.RoleRepository;
+import gaminglads.userservice.repository.UserRepository;
+import gaminglads.userservice.service.JwtService;
+import gaminglads.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+class UserControllerTest {
 
     @Mock
     private UserRepository userRepository;

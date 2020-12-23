@@ -1,4 +1,4 @@
-package GamingLads.userservice.config;
+package gaminglads.userservice.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

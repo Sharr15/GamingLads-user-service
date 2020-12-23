@@ -1,10 +1,10 @@
-package GamingLads.userservice.service;
+package gaminglads.userservice.service;
 
-import GamingLads.userservice.model.Role;
-import GamingLads.userservice.model.SignInRequest;
-import GamingLads.userservice.model.User;
-import GamingLads.userservice.repository.RoleRepository;
-import GamingLads.userservice.repository.UserRepository;
+import gaminglads.userservice.model.Role;
+import gaminglads.userservice.model.SignInRequest;
+import gaminglads.userservice.model.User;
+import gaminglads.userservice.repository.RoleRepository;
+import gaminglads.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

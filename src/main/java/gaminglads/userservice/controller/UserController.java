@@ -1,8 +1,8 @@
-package GamingLads.userservice.controller;
+package gaminglads.userservice.controller;
 
-import GamingLads.userservice.model.SignInRequest;
-import GamingLads.userservice.model.User;
-import GamingLads.userservice.service.UserService;
+import gaminglads.userservice.model.SignInRequest;
+import gaminglads.userservice.model.User;
+import gaminglads.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,19 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signIn/admin")
-    public ResponseEntity<String> signInAdmin(@RequestBody SignInRequest signInRequest) {
-        boolean validated = userService.signIn(signInRequest);
-        if (validated) {
-            final String jwt = userService.createToken(signInRequest);
-            if (jwt != null) {
-                return new ResponseEntity<>(jwt, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-            }
-        }
-        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-    }
+//    @PostMapping("/signIn/admin")
+//    public ResponseEntity<String> signInAdmin(@RequestBody SignInRequest signInRequest) {
+//        boolean validated = userService.signIn(signInRequest);
+//        if (validated) {
+//            final String jwt = userService.createToken(signInRequest);
+//            if (jwt != null) {
+//                return new ResponseEntity<>(jwt, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.CONFLICT);
+//            }
+//        }
+//        return new ResponseEntity<>(HttpStatus.CONFLICT);
+//    }
 
     //get params User user
     @PostMapping("/signIn/user")
@@ -38,10 +38,10 @@ public class UserController {
             if (jwt != null) {
                 return new ResponseEntity<>(jwt, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
-        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @PostMapping("/signUp")
