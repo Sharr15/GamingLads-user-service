@@ -27,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,7 +71,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testSignUp() throws Exception {
+    void testSignUp() throws Exception {
         when(restTemplate.postForEntity(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.any(),
