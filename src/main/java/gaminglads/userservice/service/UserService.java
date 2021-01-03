@@ -23,6 +23,8 @@ public class UserService {
     private final JwtService jwtService;
     private final RoleRepository roleRepo;
 
+    //checks if the credentials are correct
+    //returns true if it is correct, false if not
     public boolean signIn(SignInRequest signInRequest) {
         List<User> usersList = userRepo.findAll();
         for (User user1 : usersList) {
@@ -33,12 +35,15 @@ public class UserService {
         return false;
     }
 
+    //returns token
     public String createToken(SignInRequest signInRequest){
         User user = userRepo.findByUsername(signInRequest.getUsername());
         return jwtService.generateToken(user);
     }
 
 
+    //saves user, if succeeded, create profile
+    //returns boolean
     public boolean signUp(User user){
         boolean saved = saveUser(user);
         if(saved){
@@ -48,7 +53,7 @@ public class UserService {
         return false;
     }
 
-
+    //saves user
     public boolean saveUser(User user){
         user.setActive(false);
         Role role = roleRepo.findByName("USER");
@@ -64,6 +69,7 @@ public class UserService {
         return true;
     }
 
+    //send request to other service
     public ResponseEntity<User> createProfile(User user){
         return restTemplate.postForEntity("http://localhost:8089/profile/create", user, User.class);
     }

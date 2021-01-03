@@ -29,7 +29,8 @@ public class UserController {
 //        return new ResponseEntity<>(HttpStatus.CONFLICT);
 //    }
 
-    //get params User user
+    //params User from front-end
+    //returns jwt token if validated
     @PostMapping("/signIn/user")
     public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) {
         boolean validated = userService.signIn(signInRequest);
@@ -44,6 +45,8 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
+    //params user from front-end
+    //returns ok if succeeded or conflict if failed
     @PostMapping("/signUp")
     public ResponseEntity<Void> signUp(@RequestBody User user) {
         if(userService.signUp(user)) {
