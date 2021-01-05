@@ -23,7 +23,7 @@ jobs:
       displayName: Compiling Image
       inputs:
         mavenPomFile: 'pom.xml'
-        goals: 'verify'
+        goals: 'compile'
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'JaCoCo'
