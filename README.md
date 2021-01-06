@@ -13,7 +13,7 @@ Returns a responseEntity with status OK and a valid jwt if succeeded or CONFLICT
 POST/user/signIn/admin
 ````
 Returns a responseEntity with status OK and a valid jwt if succeeded or CONFLICT if failed
-This is a work in progress 
+(This is a work in progress) 
 
 ##### post user credentials to database and send request to profile service
 ````http request
