@@ -1,5 +1,6 @@
 # GamingLads-user-service
 This service takes care of the authentication and authorization.
+All documentation can be found in gaminglads-gateway -> documentation
 
 ## api endpoints
 ##### post jwt to validated user
