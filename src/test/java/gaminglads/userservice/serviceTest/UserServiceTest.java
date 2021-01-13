@@ -72,8 +72,8 @@ class UserServiceTest {
         signUpRequest = new SignUpRequest("Sharony", "1234", "1234");
     }
 
+    //succeeds if no exception is thrown
     @Test
-        //succeeds if no exception is thrown
     void testSignUp() throws Exception {
         when(restTemplate.postForEntity(
                 ArgumentMatchers.anyString(),
