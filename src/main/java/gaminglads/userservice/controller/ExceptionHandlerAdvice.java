@@ -13,31 +13,31 @@ public class ExceptionHandlerAdvice {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler
-    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException e){
+    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException e) {
         log.error("Credentials were invalid", e);
         return new ResponseEntity<>("Credentials were invalid", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleTokenNotCreatedException(TokenNotCreatedException e){
+    public ResponseEntity<String> handleTokenNotCreatedException(TokenNotCreatedException e) {
         log.error("Token not created", e);
         return new ResponseEntity<>("Token not created", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e){
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e) {
         log.error("User not found", e);
         return new ResponseEntity<>("User not found", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleUserNotSavedException(UserNotSavedException e){
+    public ResponseEntity<String> handleUserNotSavedException(UserNotSavedException e) {
         log.error("User could not be saved", e);
         return new ResponseEntity<>("User could not be saved", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleProfileNotCreatedException(ProfileNotCreatedException e){
+    public ResponseEntity<String> handleProfileNotCreatedException(ProfileNotCreatedException e) {
         log.error("Profile could not be created", e);
         return new ResponseEntity<>("Profile could not be created", HttpStatus.CONFLICT);
     }

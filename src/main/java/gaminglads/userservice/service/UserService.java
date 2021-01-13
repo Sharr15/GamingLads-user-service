@@ -17,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service @RequiredArgsConstructor @Transactional
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepo;
@@ -40,20 +42,16 @@ public class UserService {
     //returns token
     public String createToken(SignInRequest signInRequest) throws TokenNotCreatedException, UserNotFoundException {
         User user = new User();
-
-        try{
+        try {
             user = userRepo.findByUsername(signInRequest.getUsername());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new UserNotFoundException();
         }
 
         String token = jwtService.generateToken(user);
-
-        if(token == null){
+        if (token == null) {
             throw new TokenNotCreatedException();
         }
-
         return token;
     }
 
@@ -61,20 +59,20 @@ public class UserService {
     //returns boolean
     //TODO: username unique check throws UserNameNotUniqueException
     public void signUp(SignUpRequest signUpRequest) throws UserNotSavedException, ProfileNotCreatedException {
-        try{
+        try {
             saveUser(signUpRequest);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new UserNotSavedException();
         }
+
         ResponseEntity<String> entity = createProfile(userRepo.findByUsername(signUpRequest.getUsername()));
-        if(entity.getStatusCode() == HttpStatus.CONFLICT){
+        if (entity.getStatusCode() == HttpStatus.CONFLICT) {
             throw new ProfileNotCreatedException();
         }
     }
 
     //saves user
-    public void saveUser(SignUpRequest signUpRequest) throws UserNotSavedException{
+    public void saveUser(SignUpRequest signUpRequest) throws UserNotSavedException {
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(signUpRequest.getPassword());
@@ -83,16 +81,16 @@ public class UserService {
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         user.setRoles(roles);
-        try{
+
+        try {
             userRepo.save(user);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new UserNotSavedException();
         }
     }
 
     //send request to other service
-    public ResponseEntity<String> createProfile(User user) throws ProfileNotCreatedException{
+    public ResponseEntity<String> createProfile(User user) throws ProfileNotCreatedException {
         return restTemplate.postForEntity("https://gaminglads-gateway.herokuapp.com/profile/create", user, String.class);
     }
 }

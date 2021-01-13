@@ -14,5 +14,4 @@ public class SignInRequest {
 
     @Getter @Setter
     private String password;
-
 }

@@ -16,7 +16,7 @@ public class DatabaseConfiguration {
     private String dbUrl;
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(org.postgresql.Driver.class.getName());
         config.setJdbcUrl(dbUrl);

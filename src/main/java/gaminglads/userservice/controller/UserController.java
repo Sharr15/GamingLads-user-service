@@ -16,16 +16,16 @@ public class UserController {
 
     private final UserService userService;
 
-    //params signinrequest from front-end
+    //params signInRequest from front-end
     //returns jwt token if validated
     @PostMapping("/signIn/user")
-    public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) throws InvalidCredentialsException, TokenNotCreatedException, UserNotFoundException{
+    public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) throws InvalidCredentialsException, TokenNotCreatedException, UserNotFoundException {
         String jwt = userService.signIn(signInRequest);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
-    //params signuprequest from front-end
-    //returns ok if succeeded or conflict if failed
+    //params signUpRequest from front-end
+    //returns ok if succeeded
     @PostMapping("/signUp")
     public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) throws UserNotSavedException, ProfileNotCreatedException {
         userService.signUp(signUpRequest);

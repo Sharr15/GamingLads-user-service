@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
@@ -28,13 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 
 @ExtendWith(SpringExtension.class)
+@AutoConfigureMockMvc
 @SpringBootTest
 class UserServiceTest {
 
@@ -75,14 +73,8 @@ class UserServiceTest {
     }
 
     @Test
-    void testSignUp() throws Exception{
-        // when(restTemplate.postForEntity(
-        // ArgumentMatchers.anyString(),
-        // ArgumentMatchers.any(HttpMethod.class),
-        //ArgumentMatchers.any(),
-        // ArgumentMatchers.<Class<String>>any())).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
-        //assertTrue(userService.signUp(user));
-
+        //succeeds if no exception is thrown
+    void testSignUp() throws Exception {
         when(restTemplate.postForEntity(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.any(),
@@ -90,24 +82,7 @@ class UserServiceTest {
 
         when(userRepository.findByUsername("Sharony")).thenReturn(user);
         when(userService.createProfile(user)).thenReturn(new ResponseEntity<>(CREATED));
-
-        //doReturn(new ResponseEntity<>(HttpStatus.CREATED)).when(restTemplate).postForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.any(HttpMethod.class), ArgumentMatchers.any());
-        //HttpHeaders header = new HttpHeaders();
-        // header.setContentType(MediaType.APPLICATION_JSON);
-
-        //ResponseEntity<String> entity = new ResponseEntity<>(HttpStatus.CREATED);
-
-        //when(userService.createProfile(any(User.class)).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
-        //assertTrue(userService.signUp(signUpRequest));
     }
-
-/*    @Test
-    void testSaveUser() throws Exception {
-        when(roleRepository.findByName("USER")).thenReturn(role);
-        when(userRepository.save(Mockito.any(User.class)))
-                .thenAnswer(i -> i.getArguments()[0]);
-        assertTrue(userService.saveUser(signUpRequest));
-    }*/
 
     @Test
     void testSignIn() throws Exception {
@@ -124,7 +99,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testInvalidCredentialsSignIn() throws Exception{
+    void testInvalidCredentialsSignIn() throws Exception {
         List<User> userList = new ArrayList<>();
         userList.add(user);
         userList.add(user1);
@@ -146,5 +121,4 @@ class UserServiceTest {
 
         assertThrows(TokenNotCreatedException.class, () -> userService.signIn(signInRequest));
     }
-
 }

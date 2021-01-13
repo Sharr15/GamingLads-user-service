@@ -16,9 +16,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("user/signIn/user", "user/signUp", "user/signIn/admin").permitAll();
-                //.anyRequest().authenticated()
-                //.and().sessionManagement()
-                //.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //.anyRequest().authenticated()
+        //.and().sessionManagement()
+        //.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
