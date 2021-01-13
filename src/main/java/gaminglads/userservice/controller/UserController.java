@@ -1,7 +1,8 @@
 package gaminglads.userservice.controller;
 
+import gaminglads.userservice.exceptions.*;
 import gaminglads.userservice.model.SignInRequest;
-import gaminglads.userservice.model.User;
+import gaminglads.userservice.model.SignUpRequest;
 import gaminglads.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,43 +16,19 @@ public class UserController {
 
     private final UserService userService;
 
-//    @PostMapping("/signIn/admin")
-//    public ResponseEntity<String> signInAdmin(@RequestBody SignInRequest signInRequest) {
-//        boolean validated = userService.signIn(signInRequest);
-//        if (validated) {
-//            final String jwt = userService.createToken(signInRequest);
-//            if (jwt != null) {
-//                return new ResponseEntity<>(jwt, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
-//            }
-//        }
-//        return new ResponseEntity<>(HttpStatus.CONFLICT);
-//    }
-
-    //params User from front-end
+    //params signinrequest from front-end
     //returns jwt token if validated
     @PostMapping("/signIn/user")
-    public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) {
-        boolean validated = userService.signIn(signInRequest);
-        if (validated) {
-            final String jwt = userService.createToken(signInRequest);
-            if (jwt != null) {
-                return new ResponseEntity<>(jwt, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    public ResponseEntity<String> signInUser(@RequestBody SignInRequest signInRequest) throws InvalidCredentialsException, TokenNotCreatedException, UserNotFoundException{
+        String jwt = userService.signIn(signInRequest);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
-    //params user from front-end
+    //params signuprequest from front-end
     //returns ok if succeeded or conflict if failed
     @PostMapping("/signUp")
-    public ResponseEntity<Void> signUp(@RequestBody User user) {
-        if(userService.signUp(user)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) throws UserNotSavedException, ProfileNotCreatedException {
+        userService.signUp(signUpRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
