@@ -40,6 +40,7 @@ public class UserIntegrationTest {
         randomUsername = randomString(10);
     }
 
+    //tests also profile service.
     @Test
     @Order(1)
     void testSignUp() throws Exception {

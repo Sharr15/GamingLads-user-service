@@ -98,7 +98,7 @@ class UserControllerTest {
     }
 
     @Test
-    void signIn() throws Exception {
+    void testSignIn() throws Exception {
         List<User> userList = new ArrayList<>();
         userList.add(user);
         userList.add(user1);
