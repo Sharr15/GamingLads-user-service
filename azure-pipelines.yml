@@ -23,7 +23,6 @@ jobs:
       displayName: Compiling Image
       inputs:
         mavenPomFile: 'pom.xml'
-        goals: 'compile'
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'JaCoCo'
@@ -35,6 +34,11 @@ jobs:
         effectivePomSkip: false
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
+        
+    - task: CmdLine@2
+      inputs:
+        script: 'mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+
     - task: SonarCloudPublish@1
       displayName: Publish SonarCloud
       inputs:
