@@ -95,7 +95,7 @@ class UserServiceTest {
         when(jwtService.generateToken(user)).thenReturn("test");
         when(userService.createToken(signInRequest)).thenReturn("test");
 
-        assertEquals(userService.signIn(signInRequest), "test");
+        assertEquals("test", userService.signIn(signInRequest));
     }
 
     @Test

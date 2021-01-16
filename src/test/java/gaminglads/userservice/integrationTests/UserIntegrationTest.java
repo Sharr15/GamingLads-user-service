@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserIntegrationTest {
+class UserIntegrationTest {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -46,7 +46,7 @@ public class UserIntegrationTest {
     void testSignUp() throws Exception {
         SignUpRequest signUpRequest = new SignUpRequest(randomUsername, "1234", "1234");
         ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8082/user/signUp", signUpRequest, String.class);
-        assertEquals(entity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, entity.getStatusCode());
     }
 
     @Test
@@ -54,6 +54,6 @@ public class UserIntegrationTest {
     void testSignIn() throws Exception {
         SignInRequest signInRequest = new SignInRequest(randomUsername, "1234");
         ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8082/user/signIn/user", signInRequest, String.class);
-        assertEquals(entity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, entity.getStatusCode());
     }
 }

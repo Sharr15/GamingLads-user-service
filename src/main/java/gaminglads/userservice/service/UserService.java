@@ -90,7 +90,7 @@ public class UserService {
     }
 
     //send request to other service
-    public ResponseEntity<String> createProfile(User user) throws ProfileNotCreatedException {
+    public ResponseEntity<String> createProfile(User user) {
         return restTemplate.postForEntity("https://gaminglads-gateway.herokuapp.com/profile/create", user, String.class);
     }
 }
