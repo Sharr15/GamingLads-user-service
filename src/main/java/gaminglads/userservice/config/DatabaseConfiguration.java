@@ -20,6 +20,8 @@ public class DatabaseConfiguration {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(org.postgresql.Driver.class.getName());
         config.setJdbcUrl(dbUrl);
+        config.setMaximumPoolSize(15);
+        config.setMinimumIdle(10);
         return new HikariDataSource(config);
     }
 }
