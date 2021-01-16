@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserIntegrationTest {
 
@@ -45,7 +45,7 @@ public class UserIntegrationTest {
     @Order(1)
     void testSignUp() throws Exception {
         SignUpRequest signUpRequest = new SignUpRequest(randomUsername, "1234", "1234");
-        ResponseEntity<String> entity = restTemplate.postForEntity("https://gaminglads-gateway.herokuapp.com/user/signUp", signUpRequest, String.class);
+        ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8082/user/signUp", signUpRequest, String.class);
         assertEquals(entity.getStatusCode(), HttpStatus.OK);
     }
 
@@ -53,7 +53,7 @@ public class UserIntegrationTest {
     @Order(2)
     void testSignIn() throws Exception {
         SignInRequest signInRequest = new SignInRequest(randomUsername, "1234");
-        ResponseEntity<String> entity = restTemplate.postForEntity("https://gaminglads-gateway.herokuapp.com/user/signIn/user", signInRequest, String.class);
+        ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:8082/user/signIn/user", signInRequest, String.class);
         assertEquals(entity.getStatusCode(), HttpStatus.OK);
     }
 }
